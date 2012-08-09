@@ -1,3 +1,6 @@
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 /**
  * Esta clase provee la funcionalidad de convertir un numero representado en
  * digitos a una representacion en letras. Mejorado para leer centavos
@@ -43,13 +46,22 @@ public abstract class NumberToLetterConverter {
 	 * @throws NumberFormatException
 	 *             Si el numero esta fuera del rango
 	 */
-	public static String convertNumberToLetter(double number)
+	public static String convertNumberToLetter(double doubleNumber)
 			throws NumberFormatException {
 
 		StringBuilder converted = new StringBuilder();
 
+		String patternThreeDecimalPoints = "#.###";
+
+		DecimalFormat format = new DecimalFormat(patternThreeDecimalPoints);
+		format.setRoundingMode(RoundingMode.DOWN);
+
+		// formateamos el numero, para ajustarlo a el formato de tres puntos
+		// decimales
+		String formatedDouble = format.format(doubleNumber);
+		doubleNumber = Double.parseDouble(formatedDouble);
+
 		// Validamos que sea un numero legal
-		double doubleNumber = Math.round(number);
 		if (doubleNumber > 999999999)
 			throw new NumberFormatException(
 					"El numero es mayor de 999'999.999, "
