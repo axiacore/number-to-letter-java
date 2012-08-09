@@ -24,6 +24,8 @@ public abstract class NumberToLetterConverter {
 	 * 
 	 * @param number
 	 *            Numero en representacion texto
+	 * @throws NumberFormatException
+	 *             Si valor del numero no es valido (fuera de rango o )
 	 * @return Numero en letras
 	 */
 	public static String convertNumberToLetter(String number)
@@ -43,7 +45,8 @@ public abstract class NumberToLetterConverter {
 	 */
 	public static String convertNumberToLetter(double number)
 			throws NumberFormatException {
-		String converted = new String();
+
+		StringBuilder converted = new StringBuilder();
 
 		// Validamos que sea un numero legal
 		double doubleNumber = Math.round(number);
@@ -61,9 +64,10 @@ public abstract class NumberToLetterConverter {
 				+ String.valueOf(getDigitAt(splitNumber[0], 7))
 				+ String.valueOf(getDigitAt(splitNumber[0], 6)));
 		if (millon == 1)
-			converted = "UN MILLON ";
-		if (millon > 1)
-			converted = convertNumber(String.valueOf(millon)) + "MILLONES ";
+			converted.append("UN MILLON ");
+		else if (millon > 1)
+			converted.append(convertNumber(String.valueOf(millon))
+					+ "MILLONES ");
 
 		// Descompone el trio de miles
 		int miles = Integer.parseInt(String.valueOf(getDigitAt(splitNumber[0],
@@ -71,9 +75,9 @@ public abstract class NumberToLetterConverter {
 				+ String.valueOf(getDigitAt(splitNumber[0], 4))
 				+ String.valueOf(getDigitAt(splitNumber[0], 3)));
 		if (miles == 1)
-			converted += "MIL ";
-		if (miles > 1)
-			converted += convertNumber(String.valueOf(miles)) + "MIL ";
+			converted.append("MIL ");
+		else if (miles > 1)
+			converted.append(convertNumber(String.valueOf(miles)) + "MIL ");
 
 		// Descompone el ultimo trio de unidades
 		int cientos = Integer.parseInt(String.valueOf(getDigitAt(
@@ -81,14 +85,14 @@ public abstract class NumberToLetterConverter {
 				+ String.valueOf(getDigitAt(splitNumber[0], 1))
 				+ String.valueOf(getDigitAt(splitNumber[0], 0)));
 		if (cientos == 1)
-			converted += "UN";
+			converted.append("UN");
 
 		if (millon + miles + cientos == 0)
-			converted += "CERO";
+			converted.append("CERO");
 		if (cientos > 1)
-			converted += convertNumber(String.valueOf(cientos));
+			converted.append(convertNumber(String.valueOf(cientos)));
 
-		converted += "PESOS";
+		converted.append("PESOS");
 
 		// Descompone los centavos
 		int centavos = Integer.parseInt(String.valueOf(getDigitAt(
@@ -96,12 +100,12 @@ public abstract class NumberToLetterConverter {
 				+ String.valueOf(getDigitAt(splitNumber[1], 1))
 				+ String.valueOf(getDigitAt(splitNumber[1], 0)));
 		if (centavos == 1)
-			converted += " CON UN CENTAVO";
-		if (centavos > 1)
-			converted += " CON " + convertNumber(String.valueOf(centavos))
-					+ "CENTAVOS";
+			converted.append(" CON UN CENTAVO");
+		else if (centavos > 1)
+			converted.append(" CON " + convertNumber(String.valueOf(centavos))
+					+ "CENTAVOS");
 
-		return converted;
+		return converted.toString();
 	}
 
 	/**
@@ -117,29 +121,27 @@ public abstract class NumberToLetterConverter {
 			throw new NumberFormatException(
 					"La longitud maxima debe ser 3 digitos");
 
-		String output = new String();
+		StringBuilder output = new StringBuilder();
 		if (getDigitAt(number, 2) != 0)
-			output = CENTENAS[getDigitAt(number, 2) - 1];
+			output.append(CENTENAS[getDigitAt(number, 2) - 1]);
 
 		int k = Integer.parseInt(String.valueOf(getDigitAt(number, 1))
 				+ String.valueOf(getDigitAt(number, 0)));
 
 		if (k <= 20)
-			output += UNIDADES[k];
-		else {
-			if (k > 30 && getDigitAt(number, 0) != 0)
-				output += DECENAS[getDigitAt(number, 1) - 2] + "Y "
-						+ UNIDADES[getDigitAt(number, 0)];
-			else
-				output += DECENAS[getDigitAt(number, 1) - 2]
-						+ UNIDADES[getDigitAt(number, 0)];
-		}
+			output.append(UNIDADES[k]);
+		else if (k > 30 && getDigitAt(number, 0) != 0)
+			output.append(DECENAS[getDigitAt(number, 1) - 2] + "Y "
+					+ UNIDADES[getDigitAt(number, 0)]);
+		else
+			output.append(DECENAS[getDigitAt(number, 1) - 2]
+					+ UNIDADES[getDigitAt(number, 0)]);
 
 		// Caso especial con el 100
 		if (getDigitAt(number, 2) == 1 && k == 0)
-			output = "CIEN";
+			output =  new StringBuilder("CIEN");
 
-		return output;
+		return output.toString();
 	}
 
 	/**
