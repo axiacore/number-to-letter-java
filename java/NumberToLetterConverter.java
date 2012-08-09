@@ -55,6 +55,9 @@ public abstract class NumberToLetterConverter {
 					"El numero es mayor de 999'999.999, "
 							+ "no es posible convertirlo");
 
+		if (doubleNumber < 0)
+			throw new NumberFormatException("El numero debe ser positivo");
+
 		String splitNumber[] = String.valueOf(doubleNumber).replace('.', '#')
 				.split("#");
 
