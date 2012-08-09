@@ -117,9 +117,15 @@ public abstract class NumberToLetterConverter {
 	 * @return Numero convertido en letras
 	 */
 	private static String convertNumber(String number) {
+
 		if (number.length() > 3)
 			throw new NumberFormatException(
 					"La longitud maxima debe ser 3 digitos");
+
+		// Caso especial con el 100
+		if (number.equals("100")) {
+			return "CIEN";
+		}
 
 		StringBuilder output = new StringBuilder();
 		if (getDigitAt(number, 2) != 0)
@@ -136,10 +142,6 @@ public abstract class NumberToLetterConverter {
 		else
 			output.append(DECENAS[getDigitAt(number, 1) - 2]
 					+ UNIDADES[getDigitAt(number, 0)]);
-
-		// Caso especial con el 100
-		if (getDigitAt(number, 2) == 1 && k == 0)
-			output =  new StringBuilder("CIEN");
 
 		return output.toString();
 	}
