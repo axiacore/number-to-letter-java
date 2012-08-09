@@ -1,5 +1,3 @@
-import java.lang.Math;
-
 /**
  * Esta clase provee la funcionalidad de convertir un numero representado en
  * digitos a una representacion en letras. Mejorado para leer centavos
