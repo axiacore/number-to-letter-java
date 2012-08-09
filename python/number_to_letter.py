@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from itertools import ifilter
+
 UNIDADES = (
     '',
     'UN ',
@@ -21,6 +24,7 @@ UNIDADES = (
     'DIECINUEVE ',
     'VEINTE '
 )
+
 DECENAS = (
     'VENTI',
     'TREINTA ',
@@ -32,6 +36,7 @@ DECENAS = (
     'NOVENTA ',
     'CIEN '
 )
+
 CENTENAS = (
     'CIENTO ',
     'DOSCIENTOS ',
@@ -43,9 +48,31 @@ CENTENAS = (
     'OCHOCIENTOS ',
     'NOVECIENTOS '
 )
+MONEDAS = (
+    {'country': u'Colombia', 'currency': 'COP', 'singular': u'PESO COLOMBIANO', 'plural': u'PESOS COLOMBIANOS', 'symbol': u'$'},
+    {'country': u'Estados Unidos', 'currency': 'USD', 'singular': u'DÓLAR', 'plural': u'DÓLARES', 'symbol': u'US$'},
+    {'country': u'Europa', 'currency': 'EUR', 'singular': u'EURO', 'plural': u'EUROS', 'symbol': u'€'},
+    {'country': u'México', 'currency': 'MXN', 'singular': u'PESO MEXICANO', 'plural': u'PESOS MEXICANOS', 'symbol': u'$'},
+    {'country': u'Perú', 'currency': 'PEN', 'singular': u'NUEVO SOL', 'plural': u'NUEVOS SOLES', 'symbol': u'S/.'},
+    {'country': u'Reino Unido', 'currency': 'GBP', 'singular': u'LIBRA', 'plural': u'LIBRAS', 'symbol': u'£'}
+)
+# Para definir la moneda me estoy basando en los código que establece el ISO 4217
+# Decidí poner las variables en inglés, porque es más sencillo de ubicarlas sin importar el país
+# Si, ya sé que Europa no es un país, pero no se me ocurrió un nombre mejor para la clave.
 
 
-def to_word(number):
+def to_word(number, mi_moneda=None):
+    if mi_moneda != None:
+        try:
+            moneda = ifilter(lambda x: x['currency'] == mi_moneda, MONEDAS).next()
+            if number < 2:
+                moneda = moneda['singular']
+            else:
+                moneda = moneda['plural']
+        except:
+            return "Tipo de moneda inválida"
+    else:
+        moneda = ""
     """Converts a number into string representation"""
     converted = ''
 
@@ -74,11 +101,15 @@ def to_word(number):
             converted += 'UN '
         elif(int(cientos) > 0):
             converted += '%s ' % __convert_group(cientos)
-
-    converted += 'PESOS'
+    
+    converted += moneda
 
     return converted.title()
 
+# Ejemplo:
+#    print to_word(100)  --->   Cien
+#    print to_word(100, 'PEN')  --->   Cien Nuevos Soles
+#    print to_word(1, 'COP')  --->   Un Peso Colombiano
 
 def __convert_group(n):
     """Turn each group of numbers into letters"""
