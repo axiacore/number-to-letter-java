@@ -1,43 +1,51 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 import unittest
 import number_to_letter
 
 
 class TestToWord(unittest.TestCase):
     def setUp(self):
-        self.number1 = 100
-        self.number2 = 2000
-        self.number3 = 300000
-        self.number4 = 4000000
-        self.number5 = 500000000
-        self.number6 = 6000000000
+        self.list_number = [
+            1, 100, 2000,
+            300000, 4000000,
+            500000000, 999999998,
+            6000000000,
+        ]
+
+        self.list_countries = [
+            'COP', 'USD', 'EUR',
+            'MXN', 'PEN', 'GBP',
+        ]
+
+        self.list_messages = [
+            "Un Peso Colombiano", u"Un Dólar", "Un Euro", "Un Peso Mexicano",
+            "Un Nuevo Sol", "Un Libra"
+        ]
+        self.list_messages2 = [
+            "Cien  Pesos Colombianos", u"Dos Mil Dólares",
+            "Trescientos Mil Euros", "Cuatro Millones Pesos Mexicanos",
+            "Quinientos Millones Nuevos Soles",
+            "Novecientos Noventa Y Nueve Millones Novecientos Noventa Y Nueve Mil Novecientos Noventa Y Ocho  Libras",
+            "No es posible convertir el numero a letras",
+        ]
 
     def test_to_word(self):
-        self.assertEqual(
-            number_to_letter.to_word(self.number1),
-            "Cien  Pesos"
-        )
 
-        self.assertEqual(
-            number_to_letter.to_word(self.number2),
-            "Dos Mil Pesos"
-        )
+        cont_msg = 0
+        for country in self.list_countries:
+            self.assertEqual(
+                number_to_letter.to_word(self.list_number[0], country),
+                self.list_messages[cont_msg]
+            )
+            cont_msg += 1
 
-        self.assertEqual(
-            number_to_letter.to_word(self.number3),
-            "Trescientos Mil Pesos"
-        )
-
-        self.assertEqual(
-            number_to_letter.to_word(self.number4),
-            "Cuatro Millones Pesos"
-        )
-
-        self.assertEqual(
-            number_to_letter.to_word(self.number5),
-            "Quinientos Millones Pesos"
-        )
-
-        self.assertEqual(
-            number_to_letter.to_word(self.number6),
-            "No es posible convertir el numero a letras"
-        )
+        cont_msg = 0
+        cont_num = 1
+        for country in self.list_countries:
+            self.assertEqual(
+                number_to_letter.to_word(self.list_number[cont_num], country),
+                self.list_messages2[cont_msg]
+            )
+            cont_msg += 1
+            cont_num += 1

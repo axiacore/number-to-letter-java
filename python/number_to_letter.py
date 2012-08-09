@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 from itertools import ifilter
 
@@ -48,6 +49,7 @@ CENTENAS = (
     'OCHOCIENTOS ',
     'NOVECIENTOS '
 )
+
 MONEDAS = (
     {'country': u'Colombia', 'currency': 'COP', 'singular': u'PESO COLOMBIANO', 'plural': u'PESOS COLOMBIANOS', 'symbol': u'$'},
     {'country': u'Estados Unidos', 'currency': 'USD', 'singular': u'DÓLAR', 'plural': u'DÓLARES', 'symbol': u'US$'},
@@ -101,15 +103,11 @@ def to_word(number, mi_moneda=None):
             converted += 'UN '
         elif(int(cientos) > 0):
             converted += '%s ' % __convert_group(cientos)
-    
+
     converted += moneda
 
     return converted.title()
 
-# Ejemplo:
-#    print to_word(100)  --->   Cien
-#    print to_word(100, 'PEN')  --->   Cien Nuevos Soles
-#    print to_word(1, 'COP')  --->   Un Peso Colombiano
 
 def __convert_group(n):
     """Turn each group of numbers into letters"""
