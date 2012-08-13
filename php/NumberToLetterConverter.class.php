@@ -3,6 +3,8 @@
  * Clase que implementa un coversor de números 
  * a letras. 
  * 
+ * Soporte para PHP >= 5.4
+ * 
  * @author AxiaCore S.A.S
  *
  */
