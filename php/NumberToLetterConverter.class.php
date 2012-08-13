@@ -4,6 +4,8 @@
  * a letras. 
  * 
  * Soporte para PHP >= 5.4
+ * Para soportar PHP 5.3, declare los arreglos
+ * con la función array. 
  * 
  * @author AxiaCore S.A.S
  *
