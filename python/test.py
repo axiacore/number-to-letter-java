@@ -23,11 +23,11 @@ class TestToWord(unittest.TestCase):
             "Un Nuevo Sol", "Un Libra"
         ]
         self.list_messages2 = [
-            "Cien  Pesos Colombianos", u"Dos Mil Dólares",
+            "Cien Pesos Colombianos", u"Dos Mil Dólares",
             "Trescientos Mil Euros", "Cuatro Millones Pesos Mexicanos",
             "Quinientos Millones Nuevos Soles",
-            "Novecientos Noventa Y Nueve Millones Novecientos Noventa Y Nueve Mil Novecientos Noventa Y Ocho  Libras",
-            "No es posible convertir el numero a letras",
+            "Novecientos Noventa Y Nueve Millones Novecientos Noventa Y Nueve Mil Novecientos Noventa Y Ocho Libras",
+            "Seis Mil Millones",
         ]
 
     def test_to_word(self):
