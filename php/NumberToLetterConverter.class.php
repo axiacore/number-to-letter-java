@@ -66,6 +66,7 @@ class NumberToLetterConverter {
 
     private $separator = '.';
     private $decimal_mark = ',';
+    private $glue = ' CON ';
 
     /**
      * Evalua si el número contiene separadores o decimales
@@ -82,7 +83,7 @@ class NumberToLetterConverter {
             $this->convertNumber($number[0], $miMoneda, 'entero'),
             $this->convertNumber($number[1], $miMoneda, 'decimal'),
         );
-        return implode(' CON ', $convertedNumber);
+        return implode($glue, $convertedNumber);
     }
 
     /**
