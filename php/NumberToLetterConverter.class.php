@@ -82,7 +82,7 @@ class NumberToLetterConverter {
             $this->convertNumber($number[0], $miMoneda, 'entero'),
             $this->convertNumber($number[1], $miMoneda, 'decimal'),
         );
-        return implode(', ', $convertedNumber);
+        return implode(' CON ', $convertedNumber);
     }
 
     /**
