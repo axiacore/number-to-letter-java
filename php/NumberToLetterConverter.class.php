@@ -55,13 +55,13 @@ class NumberToLetterConverter {
     ];
 
     private $MONEDAS = array(
-        ['country' => 'Colombia','currency' => 'COP', 'entero' => array('PESO COLOMBIANO', 'PESOS COLOMBIANOS'), 'decimal' => array('', ''), 'symbol', '$'],
-        ['country' => 'Estados Unidos', 'currency' => 'USD', 'entero' => array('DÓLAR', 'DÓLARES'), 'decimal' => array('CENTAVO', 'CENTAVOS'), 'symbol', 'US$'],
-        ['country' => 'Europa', 'currency' => 'EUR', 'entero' => array('EURO', 'EUROS'), 'decimal' => array('CENTIMO', 'CENTIMOS'), 'symbol', '€'],
-        ['country' => 'México', 'currency' => 'MXN', 'entero' => array('PESO MEXICANO', 'PESOS MEXICANOS'), 'decimal' => array('', ''), 'symbol', '$'],
-        ['country' => 'Perú', 'currency' => 'PEN', 'entero' => array('NUEVO SOL', 'NUEVOS SOLES'), 'decimal' => array('', ''), 'symbol', 'S/'],
-        ['country' => 'Reino Unido', 'currency' => 'GBP', 'entero' => array('LIBRA', 'LIBRAS'), 'decimal' => array('', ''), 'symbol', '£'],
-        ['country' => 'Argentina', 'currency' => 'ARS', 'entero' => array('PESO', 'PESOS'), 'decimal' => array('CENTAVO', 'CENTAVOS'), 'symbol', '$']
+        ['country' => 'Colombia','currency' => 'COP', 'entero' => ['PESO COLOMBIANO', 'PESOS COLOMBIANOS'], 'decimal' => ['', ''], 'symbol', '$'],
+        ['country' => 'Estados Unidos', 'currency' => 'USD', 'entero' => ['DÓLAR', 'DÓLARES'], 'decimal' => ['CENTAVO', 'CENTAVOS'], 'symbol', 'US$'],
+        ['country' => 'Europa', 'currency' => 'EUR', 'entero' => ['EURO', 'EUROS'], 'decimal' => ['CENTIMO', 'CENTIMOS'], 'symbol', '€'],
+        ['country' => 'México', 'currency' => 'MXN', 'entero' => ['PESO MEXICANO', 'PESOS MEXICANOS'], 'decimal' => ['', ''], 'symbol', '$'],
+        ['country' => 'Perú', 'currency' => 'PEN', 'entero' => ['NUEVO SOL', 'NUEVOS SOLES'], 'decimal' => ['', ''], 'symbol', 'S/'],
+        ['country' => 'Reino Unido', 'currency' => 'GBP', 'entero' => ['LIBRA', 'LIBRAS'], 'decimal' => ['', ''], 'symbol', '£'],
+        ['country' => 'Argentina', 'currency' => 'ARS', 'entero' => ['PESO', 'PESOS'], 'decimal' => ['CENTAVO', 'CENTAVOS'], 'symbol', '$']
     );
 
     private $separator = '.';
