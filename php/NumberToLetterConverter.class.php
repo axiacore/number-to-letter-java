@@ -6,7 +6,7 @@
  */
 
 class NumberToLetterConverter {
-    private $UNIDADES = [
+  private $UNIDADES = array(
         '',
         'UN ',
         'DOS ',
@@ -28,9 +28,9 @@ class NumberToLetterConverter {
         'DIECIOCHO ',
         'DIECINUEVE ',
         'VEINTE '
-    ];
+  );
 
-    private $DECENAS = [
+  private $DECENAS = array(
         'VENTI',
         'TREINTA ',
         'CUARENTA ',
@@ -40,9 +40,9 @@ class NumberToLetterConverter {
         'OCHENTA ',
         'NOVENTA ',
         'CIEN '
-    ];
+  );
 
-    private $CENTENAS = [
+  private $CENTENAS = array(
         'CIENTO ',
         'DOSCIENTOS ',
         'TRESCIENTOS ',
@@ -52,17 +52,17 @@ class NumberToLetterConverter {
         'SETECIENTOS ',
         'OCHOCIENTOS ',
         'NOVECIENTOS '
-    ];
+  );
 
-    private $MONEDAS = array(
-        ['country' => 'Colombia','currency' => 'COP', 'entero' => ['PESO COLOMBIANO', 'PESOS COLOMBIANOS'], 'decimal' => ['', ''], 'symbol', '$'],
-        ['country' => 'Estados Unidos', 'currency' => 'USD', 'entero' => ['DÓLAR', 'DÓLARES'], 'decimal' => ['CENTAVO', 'CENTAVOS'], 'symbol', 'US$'],
-        ['country' => 'Europa', 'currency' => 'EUR', 'entero' => ['EURO', 'EUROS'], 'decimal' => ['CENTIMO', 'CENTIMOS'], 'symbol', '€'],
-        ['country' => 'México', 'currency' => 'MXN', 'entero' => ['PESO MEXICANO', 'PESOS MEXICANOS'], 'decimal' => ['', ''], 'symbol', '$'],
-        ['country' => 'Perú', 'currency' => 'PEN', 'entero' => ['NUEVO SOL', 'NUEVOS SOLES'], 'decimal' => ['', ''], 'symbol', 'S/'],
-        ['country' => 'Reino Unido', 'currency' => 'GBP', 'entero' => ['LIBRA', 'LIBRAS'], 'decimal' => ['', ''], 'symbol', '£'],
-        ['country' => 'Argentina', 'currency' => 'ARS', 'entero' => ['PESO', 'PESOS'], 'decimal' => ['CENTAVO', 'CENTAVOS'], 'symbol', '$']
-    );
+  private $MONEDAS = array(
+    array('country' => 'Colombia', 'currency' => 'COP', 'singular' => 'PESO COLOMBIANO', 'plural' => 'PESOS COLOMBIANOS', 'symbol', '$'),
+    array('country' => 'Estados Unidos', 'currency' => 'USD', 'singular' => 'DÓLAR', 'plural' => 'DÓLARES', 'symbol', 'US$'),
+    array('country' => 'Europa', 'currency' => 'EUR', 'singular' => 'EURO', 'plural' => 'EUROS', 'symbol', '€'),
+    array('country' => 'México', 'currency' => 'MXN', 'singular' => 'PESO MEXICANO', 'plural' => 'PESOS MEXICANOS', 'symbol', '$'),
+    array('country' => 'Perú', 'currency' => 'PEN', 'singular' => 'NUEVO SOL', 'plural' => 'NUEVOS SOLES', 'symbol', 'S/'),
+    array('country' => 'Reino Unido', 'currency' => 'GBP', 'singular' => 'LIBRA', 'plural' => 'LIBRAS', 'symbol', '£'),
+    array('country' => 'Argentina', 'currency' => 'ARS', 'singular' => 'PESO', 'plural' => 'PESOS', 'symbol', '$')
+  );
 
     private $separator = '.';
     private $decimal_mark = ',';
