@@ -83,7 +83,7 @@ class NumberToLetterConverter {
             $this->convertNumber($number[0], $miMoneda, 'entero'),
             $this->convertNumber($number[1], $miMoneda, 'decimal'),
         );
-        return implode($this->glue, $convertedNumber);
+        return implode($this->glue, array_filter($convertedNumber));
     }
 
     /**
