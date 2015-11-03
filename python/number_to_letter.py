@@ -83,7 +83,7 @@ UNITS = (
 MONEDAS = (
     {'country': u'Colombia', 'currency': 'COP', 'singular': u'PESO COLOMBIANO', 'plural': u'PESOS COLOMBIANOS', 'symbol': u'$'},
     {'country': u'Estados Unidos', 'currency': 'USD', 'singular': u'DÓLAR', 'plural': u'DÓLARES', 'symbol': u'US$'},
-    {'country': u'Europa', 'currency': 'EUR', 'singular': u'EURO', 'plural': u'EUROS', 'symbol': u'€'},
+    {'country': u'Europa', 'currency': 'EUR', 'singular': u'EURO', 'plural': u'EUROS', 'symbol': u'€', 'decimalsingular':u'Céntimo','decimalplural':u'Céntimos'},
     {'country': u'México', 'currency': 'MXN', 'singular': u'PESO MEXICANO', 'plural': u'PESOS MEXICANOS', 'symbol': u'$'},
     {'country': u'Perú', 'currency': 'PEN', 'singular': u'NUEVO SOL', 'plural': u'NUEVOS SOLES', 'symbol': u'S/.'},
     {'country': u'Reino Unido', 'currency': 'GBP', 'singular': u'LIBRA', 'plural': u'LIBRAS', 'symbol': u'£'}
@@ -159,27 +159,44 @@ def to_word(number, mi_moneda=None):
     Examples:
         >>> number_words(53625999567)
         'Cincuenta Y Tres Mil Seiscientos Venticinco Millones Novecientos Noventa Y Nueve Mil Quinientos Sesenta Y Siete'
+    
+        >>>> number_words(1481.01, 'EUR')
+        'Mil Cuatrocientos Ochenta Y Un Euros con Un Céntimo'
     """
     if mi_moneda != None:
         try:
             moneda = ifilter(lambda x: x['currency'] == mi_moneda, MONEDAS).next()
-            if number < 2:
-                moneda = moneda['singular']
+            if int(number) == 1:
+                entero = moneda['singular']
             else:
-                moneda = moneda['plural']
+                entero = moneda['plural']
+                if round(float(number) - int(number), 2) == float(0.01):
+                    fraccion = moneda['decimalsingular']
+                else:
+                    fraccion = moneda['decimalplural']
+
         except:
             return "Tipo de moneda inválida"
     else:
-        moneda = ""
+        entero = ""
+        fraccion = ""
 
     human_readable = []
-    num_units = format(number,',').split(',')
+    human_readable_decimals = []
+    num_decimals ='{:,.2f}'.format(round(number,2)).split('.') #Sólo se aceptan 2 decimales
+    num_units = num_decimals[0].split(',')
+    num_decimals = num_decimals[1].split(',')
     #print num_units
     for i,n in enumerate(num_units):
         if int(n) != 0:
             words = hundreds_word(int(n))
             units = UNITS[len(num_units)-i-1][0 if int(n) == 1 else 1]
             human_readable.append([words,units])
+    for i,n in enumerate(num_decimals):
+        if int(n) != 0:
+            words = hundreds_word(int(n))
+            units = UNITS[len(num_decimals)-i-1][0 if int(n) == 1 else 1]
+            human_readable_decimals.append([words,units])
 
     #filtrar MIL MILLONES - MILLONES -> MIL - MILLONES
     for i,item in enumerate(human_readable):
@@ -189,7 +206,19 @@ def to_word(number, mi_moneda=None):
         except IndexError:
             pass
     human_readable = [item for sublist in human_readable for item in sublist]
-    human_readable.append(moneda)
-    return ' '.join(human_readable).replace('  ',' ').title().strip()
-
+    human_readable.append(entero)
+    for i,item in enumerate(human_readable_decimals):
+        try:
+            if human_readable_decimals[i][1].find(human_readable_decimals[i+1][1]):
+                human_readable_decimals[i][1] = human_readable_decimals[i][1].replace(human_readable_decimals[i+1][1],'')
+        except IndexError:
+            pass
+    human_readable_decimals = [item for sublist in human_readable_decimals for item in sublist]
+    human_readable_decimals.append(fraccion)
+    sentence = ' '.join(human_readable).replace('  ',' ').title().strip()
+    if sentence[0:len('un mil')] == 'Un Mil':
+        sentence = 'Mil' + sentence[len('Un Mil'):]
+    if num_decimals != ['00']:
+        sentence = sentence + ' con ' + ' '.join(human_readable_decimals).replace('  ',' ').title().strip()
+    return sentence
 
