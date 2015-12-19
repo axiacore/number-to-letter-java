@@ -1,19 +1,12 @@
 <?php
 /**
- * Clase que implementa un coversor de números 
- * a letras. 
- * 
- * Soporte para PHP >= 5.4
- * Para soportar PHP 5.3, declare los arreglos
- * con la función array. 
- * 
+ * Clase que implementa un conversor de números a letras. 
  * @author AxiaCore S.A.S
  *
  */
 
-class NumberToLetterConverter 
-{
-    private $UNIDADES = [
+class NumberToLetterConverter {
+  private $UNIDADES = array(
         '',
         'UN ',
         'DOS ',
@@ -35,9 +28,9 @@ class NumberToLetterConverter
         'DIECIOCHO ',
         'DIECINUEVE ',
         'VEINTE '
-    ];
+  );
 
-    private $DECENAS = [
+  private $DECENAS = array(
         'VENTI',
         'TREINTA ',
         'CUARENTA ',
@@ -47,9 +40,9 @@ class NumberToLetterConverter
         'OCHENTA ',
         'NOVENTA ',
         'CIEN '
-    ];
+  );
 
-    private $CENTENAS = [
+  private $CENTENAS = array(
         'CIENTO ',
         'DOSCIENTOS ',
         'TRESCIENTOS ',
@@ -59,19 +52,50 @@ class NumberToLetterConverter
         'SETECIENTOS ',
         'OCHOCIENTOS ',
         'NOVECIENTOS '
-    ];
+  );
 
-    private $MONEDAS = [
-        ['country' => 'Colombia', 'currency' => 'COP', 'singular' => 'PESO COLOMBIANO', 'plural' => 'PESOS COLOMBIANOS', 'symbol', '$'],
-        ['country' => 'Estados Unidos', 'currency' => 'USD', 'singular' => 'DÓLAR', 'plural' => 'DÓLARES', 'symbol', 'US$'],
-        ['country' => 'Europa', 'currency' => 'EUR', 'singular' => 'EURO', 'plural' => 'EUROS', 'symbol', '€'],
-        ['country' => 'México', 'currency' => 'MXN', 'singular' => 'PESO MEXICANO', 'plural' => 'PESOS MEXICANOS', 'symbol', '$'],
-        ['country' => 'Perú', 'currency' => 'PEN', 'singular' => 'NUEVO SOL', 'plural' => 'NUEVOS SOLES', 'symbol', 'S/'],
-        ['country' => 'Reino Unido', 'currency' => 'GBP', 'singular' => 'LIBRA', 'plural' => 'LIBRAS', 'symbol', '£']
-    ];
+  private $MONEDAS = array(
+    array('country' => 'Colombia', 'currency' => 'COP', 'singular' => 'PESO COLOMBIANO', 'plural' => 'PESOS COLOMBIANOS', 'symbol', '$'),
+    array('country' => 'Estados Unidos', 'currency' => 'USD', 'singular' => 'DÓLAR', 'plural' => 'DÓLARES', 'symbol', 'US$'),
+    array('country' => 'Europa', 'currency' => 'EUR', 'singular' => 'EURO', 'plural' => 'EUROS', 'symbol', '€'),
+    array('country' => 'México', 'currency' => 'MXN', 'singular' => 'PESO MEXICANO', 'plural' => 'PESOS MEXICANOS', 'symbol', '$'),
+    array('country' => 'Perú', 'currency' => 'PEN', 'singular' => 'NUEVO SOL', 'plural' => 'NUEVOS SOLES', 'symbol', 'S/'),
+    array('country' => 'Reino Unido', 'currency' => 'GBP', 'singular' => 'LIBRA', 'plural' => 'LIBRAS', 'symbol', '£'),
+    array('country' => 'Argentina', 'currency' => 'ARS', 'singular' => 'PESO', 'plural' => 'PESOS', 'symbol', '$')
+  );
 
-    public function to_word($number, $miMoneda = null)
-    {   
+    private $separator = '.';
+    private $decimal_mark = ',';
+    private $glue = ' CON ';
+
+    /**
+     * Evalua si el número contiene separadores o decimales
+     * formatea y ejecuta la función conversora
+     * @param $number número a convertir
+     * @param $miMoneda clave de la moneda
+     * @return string completo
+     */
+    public function to_word($number, $miMoneda = null) {
+
+        $number = explode($this->decimal_mark, str_replace($this->separator, '', trim($number)));
+
+        $convertedNumber = array(
+            $this->convertNumber($number[0], $miMoneda, 'entero'),
+            $this->convertNumber($number[1], $miMoneda, 'decimal'),
+        );
+        return implode($this->glue, array_filter($convertedNumber));
+    }
+
+    /**
+     * Convierte número a letras
+     * @param $number
+     * @param $miMoneda
+     * @param $type tipo de dígito (entero/decimal)
+     * @return $converted string convertido
+     */
+    private function convertNumber($number, $miMoneda = null, $type) {   
+        
+        $converted = '';
         if ($miMoneda !== null) {
             try {
                 
@@ -85,24 +109,16 @@ class NumberToLetterConverter
                     throw new Exception("Tipo de moneda inválido");
                     return;
                 }
-
-                if ($number < 2) {
-                    $moneda = $moneda[0]['singular'];
-                } else {
-                    $moneda = $moneda[0]['plural'];
-                }
             } catch (Exception $e) {
                 echo $e->getMessage();
                 return;
             }
-        } else {
-            $moneda = " ";
         }
 
-        $converted = '';
+        ($number < 2 ? $moneda = $moneda[0][$type][0] : $moneda = $moneda[0][$type][1]);
 
         if (($number < 0) || ($number > 999999999)) {
-            return 'No es posible convertir el numero a letras';
+            return false;
         }
 
         $numberStr = (string) $number;
@@ -140,8 +156,13 @@ class NumberToLetterConverter
         return $converted;
     }
 
-    private function convertGroup($n)
-    {
+    /**
+     * Define el tipo de representación decimal (centenas/millares/millones)
+     * @param $n
+     * @return $output
+     */
+    private function convertGroup($n) {
+
         $output = '';
 
         if ($n == '100') {
@@ -161,7 +182,7 @@ class NumberToLetterConverter
                 $output .= sprintf('%s%s', $this->DECENAS[intval($n[1]) - 2], $this->UNIDADES[intval($n[2])]);
             }
         }
-      
+
         return $output;
     }
 }
