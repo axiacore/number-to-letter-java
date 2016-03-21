@@ -109,13 +109,14 @@ class NumberToLetterConverter {
                     throw new Exception("Tipo de moneda inválido");
                     return;
                 }
+                ($number < 2 ? $moneda = $moneda[0]['singular'] : $moneda = $moneda[0]['plural']);
             } catch (Exception $e) {
                 echo $e->getMessage();
                 return;
             }
+        }else{
+            $moneda = '';
         }
-
-        ($number < 2 ? $moneda = $moneda[0][$type][0] : $moneda = $moneda[0][$type][1]);
 
         if (($number < 0) || ($number > 999999999)) {
             return false;
