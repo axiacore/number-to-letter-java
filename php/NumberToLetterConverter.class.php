@@ -76,13 +76,18 @@ class NumberToLetterConverter {
      * @return string completo
      */
     public function to_word($number, $miMoneda = null) {
+        if (strpos($number, $this->decimal_mark) === FALSE) {
+          $convertedNumber = array(
+            $this->convertNumber($number, $miMoneda, 'entero')
+          );
+        } else {
+          $number = explode($this->decimal_mark, str_replace($this->separator, '', trim($number)));
 
-        $number = explode($this->decimal_mark, str_replace($this->separator, '', trim($number)));
-
-        $convertedNumber = array(
+          $convertedNumber = array(
             $this->convertNumber($number[0], $miMoneda, 'entero'),
             $this->convertNumber($number[1], $miMoneda, 'decimal'),
-        );
+          );
+        }
         return implode($this->glue, array_filter($convertedNumber));
     }
 
