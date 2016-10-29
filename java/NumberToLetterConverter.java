@@ -6,9 +6,9 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 /**
  *
- * @Modifico René Gómez
+ * @author René Gómez
  */
-public abstract class CantLetras {
+public class NumberToLetterConverter {
     private static final String[] UNIDADES = { "", "UN ", "DOS ", "TRES ",
             "CUATRO ", "CINCO ", "SEIS ", "SIETE ", "OCHO ", "NUEVE ", "DIEZ ",
             "ONCE ", "DOCE ", "TRECE ", "CATORCE ", "QUINCE ", "DIECISEIS",
@@ -21,6 +21,13 @@ public abstract class CantLetras {
     private static final String[] CENTENAS = { "CIENTO ", "DOSCIENTOS ",
             "TRESCIENTOS ", "CUATROCIENTOS ", "QUINIENTOS ", "SEISCIENTOS ",
             "SETECIENTOS ", "OCHOCIENTOS ", "NOVECIENTOS " };
+
+    /**
+     * Evita la creación una nueva instancia de la clase usando la palabra 
+     * reservada <code>new</code>.
+     */
+    private NumberToLetterConverter() {
+    }
     
     /**
      * Convierte a letras un numero de la forma $123,456.32
@@ -37,7 +44,7 @@ public abstract class CantLetras {
     /**
      * Convierte un numero en representacion numerica a uno en representacion de
      * texto. El numero es valido si esta entre 0 y 999'999.999
-     * @param number Numero a convertir
+     * @param doubleNumber Numero a convertir
      * @return Numero convertido a texto
      * @throws NumberFormatException
      * Si el numero esta fuera del rango
@@ -77,8 +84,9 @@ public abstract class CantLetras {
         if (millon == 1)
             converted.append("**UN MILLON ");
         else if (millon > 1)
-            converted.append("**").append(convertNumber(String.valueOf(millon))
-                    + "MILLONES ");
+            converted.append("**")
+                    .append(convertNumber(String.valueOf(millon)))
+                    .append("MILLONES ");
 
         // Descompone el trio de miles
         int miles = Integer.parseInt(String.valueOf(getDigitAt(splitNumber[0],
@@ -87,16 +95,19 @@ public abstract class CantLetras {
                 + String.valueOf(getDigitAt(splitNumber[0], 3)));
         if(millon>=1){
             if(miles==1)
-                converted.append(convertNumber(String.valueOf(miles)) + "MIL ");
+                converted.append(convertNumber(String.valueOf(miles)))
+                        .append("MIL ");
             else if(miles>1)
-                converted.append(convertNumber(String.valueOf(miles)) 
-                        + "MIL ");
+                converted.append(convertNumber(String.valueOf(miles)))
+                        .append("MIL ");
         }else{
             if (miles == 1)
-            converted.append("**UN MIL ");
+                converted.append("**UN MIL ");
+
             if (miles > 1)
-                converted.append("**").append(convertNumber(String.valueOf(miles)) 
-                        + "MIL ");
+                converted.append("**")
+                        .append(convertNumber(String.valueOf(miles)))
+                        .append("MIL ");
         }
 
         // Descompone el ultimo trio de unidades
@@ -109,9 +120,9 @@ public abstract class CantLetras {
             converted.append(convertNumber(String.valueOf(cientos)));
         }else{
             if (cientos == 1)
-            converted.append("**UN ");
+                converted.append("**UN ");
             if (cientos > 1)
-            converted.append("**").append(convertNumber(String.valueOf(cientos)));
+                converted.append("**").append(convertNumber(String.valueOf(cientos)));
         }
 
         if (millon + miles + cientos == 0)
@@ -155,11 +166,12 @@ public abstract class CantLetras {
         if (k <= 20)
             output.append(UNIDADES[k]);
         else if (k > 30 && getDigitAt(number, 0) != 0)
-            output.append(DECENAS[getDigitAt(number, 1) - 2] + "Y "
-                    + UNIDADES[getDigitAt(number, 0)]);
+            output.append(DECENAS[getDigitAt(number, 1) - 2])
+                    .append("Y ")
+                    .append(UNIDADES[getDigitAt(number, 0)]);
         else
-            output.append(DECENAS[getDigitAt(number, 1) - 2]
-                    + UNIDADES[getDigitAt(number, 0)]);
+            output.append(DECENAS[getDigitAt(number, 1) - 2])
+                    .append(UNIDADES[getDigitAt(number, 0)]);
 
         return output.toString();
     }
