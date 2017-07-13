@@ -27,7 +27,7 @@ UNIDADES = (
 )
 
 DECENAS = (
-    'VENTI',
+    'VEINTI',
     'TREINTA ',
     'CUARENTA ',
     'CINCUENTA ',
@@ -83,6 +83,7 @@ UNITS = (
 MONEDAS = (
     {'country': u'Colombia', 'currency': 'COP', 'singular': u'PESO COLOMBIANO', 'plural': u'PESOS COLOMBIANOS', 'symbol': u'$'},
     {'country': u'Estados Unidos', 'currency': 'USD', 'singular': u'DÓLAR', 'plural': u'DÓLARES', 'symbol': u'US$'},
+    {'country': u'El Salvador', 'currency': 'USD', 'singular': u'DÓLAR', 'plural': u'DÓLARES', 'symbol': u'US$'},
     {'country': u'Europa', 'currency': 'EUR', 'singular': u'EURO', 'plural': u'EUROS', 'symbol': u'€', 'decimalsingular':u'Céntimo','decimalplural':u'Céntimos'},
     {'country': u'México', 'currency': 'MXN', 'singular': u'PESO MEXICANO', 'plural': u'PESOS MEXICANOS', 'symbol': u'$'},
     {'country': u'Perú', 'currency': 'PEN', 'singular': u'NUEVO SOL', 'plural': u'NUEVOS SOLES', 'symbol': u'S/.'},
@@ -103,7 +104,7 @@ def hundreds_word(number):
 
     Examples:
         >>> to_word(123)
-        'Ciento Ventitres'
+        'Ciento Veintitres'
     """
     converted = ''
     if not (0 < number < 1000):
@@ -158,7 +159,7 @@ def to_word(number, mi_moneda=None):
 
     Examples:
         >>> number_words(53625999567)
-        'Cincuenta Y Tres Mil Seiscientos Venticinco Millones Novecientos Noventa Y Nueve Mil Quinientos Sesenta Y Siete'
+        'Cincuenta Y Tres Mil Seiscientos Veinticinco Millones Novecientos Noventa Y Nueve Mil Quinientos Sesenta Y Siete'
     
         >>>> number_words(1481.01, 'EUR')
         'Mil Cuatrocientos Ochenta Y Un Euros con Un Céntimo'
