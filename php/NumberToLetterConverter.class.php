@@ -55,18 +55,18 @@ class NumberToLetterConverter {
   );
 
   private $MONEDAS = array(
-    array('country' => 'Colombia', 'currency' => 'COP', 'singular' => 'PESO COLOMBIANO', 'plural' => 'PESOS COLOMBIANOS', 'symbol', '$'),
-    array('country' => 'Estados Unidos', 'currency' => 'USD', 'singular' => 'DÓLAR', 'plural' => 'DÓLARES', 'symbol', 'US$'),
-    array('country' => 'El Salvador', 'currency' => 'USD', 'singular' => 'DÓLAR', 'plural' => 'DÓLARES', 'symbol', 'US$'),
-    array('country' => 'Europa', 'currency' => 'EUR', 'singular' => 'EURO', 'plural' => 'EUROS', 'symbol', '€'),
-    array('country' => 'México', 'currency' => 'MXN', 'singular' => 'PESO MEXICANO', 'plural' => 'PESOS MEXICANOS', 'symbol', '$'),
-    array('country' => 'Perú', 'currency' => 'PEN', 'singular' => 'NUEVO SOL', 'plural' => 'NUEVOS SOLES', 'symbol', 'S/'),
-    array('country' => 'Reino Unido', 'currency' => 'GBP', 'singular' => 'LIBRA', 'plural' => 'LIBRAS', 'symbol', '£'),
-    array('country' => 'Argentina', 'currency' => 'ARS', 'singular' => 'PESO', 'plural' => 'PESOS', 'symbol', '$')
+    array('country' => 'Colombia', 'currency' => 'COP', 'singular' => 'PESO COLOMBIANO', 'plural' => 'PESOS COLOMBIANOS', 'symbol', '$', 'decimal' => 'CENTAVOS'),
+    array('country' => 'Estados Unidos', 'currency' => 'USD', 'singular' => 'DÓLAR', 'plural' => 'DÓLARES', 'symbol', 'US$', 'decimal' => 'CENTAVOS'),
+    array('country' => 'El Salvador', 'currency' => 'USD', 'singular' => 'DÓLAR', 'plural' => 'DÓLARES', 'symbol', 'US$', 'decimal' => 'CENTAVOS'),
+    array('country' => 'Europa', 'currency' => 'EUR', 'singular' => 'EURO', 'plural' => 'EUROS', 'symbol', '€', 'decimal' => 'CENTAVOS'),
+    array('country' => 'México', 'currency' => 'MXN', 'singular' => 'PESO', 'plural' => 'PESOS', 'symbol', '$', 'decimal' => 'CENTAVOS'),
+    array('country' => 'Perú', 'currency' => 'PEN', 'singular' => 'NUEVO SOL', 'plural' => 'NUEVOS SOLES', 'symbol', 'S/', 'decimal' => 'CENTAVOS'),
+    array('country' => 'Reino Unido', 'currency' => 'GBP', 'singular' => 'LIBRA', 'plural' => 'LIBRAS', 'symbol', '£', 'decimal' => 'CENTAVOS'),
+    array('country' => 'Argentina', 'currency' => 'ARS', 'singular' => 'PESO', 'plural' => 'PESOS', 'symbol', '$', 'decimal' => 'CENTAVOS')
   );
 
-    private $separator = '.';
-    private $decimal_mark = ',';
+    private $separator = ',';
+    private $decimal_mark = '.';
     private $glue = ' CON ';
 
     /**
@@ -83,7 +83,8 @@ class NumberToLetterConverter {
           );
         } else {
           $number = explode($this->decimal_mark, str_replace($this->separator, '', trim($number)));
-
+          if(strlen($number[1]) == 1)
+            $number[1] *= 10;  
           $convertedNumber = array(
             $this->convertNumber($number[0], $miMoneda, 'entero'),
             $this->convertNumber($number[1], $miMoneda, 'decimal'),
@@ -115,7 +116,10 @@ class NumberToLetterConverter {
                     throw new Exception("Tipo de moneda inválido");
                     return;
                 }
-                ($number < 2 ? $moneda = $moneda[0]['singular'] : $moneda = $moneda[0]['plural']);
+                if($type == 'entero')
+                    ($number < 2 ? $moneda = $moneda[0]['singular'] : $moneda = $moneda[0]['plural']);
+                if($type == 'decimal')
+                ($number < 2 ? $moneda = $moneda[0]['decimal'] : $moneda = $moneda[0]['decimal']);
             } catch (Exception $e) {
                 echo $e->getMessage();
                 return;
@@ -133,7 +137,7 @@ class NumberToLetterConverter {
         $millones = substr($numberStrFill, 0, 3);
         $miles = substr($numberStrFill, 3, 3);
         $cientos = substr($numberStrFill, 6);
-
+        
         if (intval($millones) > 0) {
             if ($millones == '001') {
                 $converted .= 'UN MILLON ';
